@@ -6,13 +6,167 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/textView"
+        android:layout_width="230dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="16dp"
+
+        android:layout_marginEnd="155dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="우리집 가스 검출 APP"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="378dp"
+        android:layout_height="231dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="416dp"
+        android:contentDescription="image01"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/jkk_ui"
+        tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/Sensor_State"
+        android:layout_width="147dp"
+        android:layout_height="54dp"
+        android:text="GOOD"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="187dp" />
+
+    <TextView
+        android:id="@+id/Sensor_Name"
+        android:layout_width="125dp"
+        android:layout_height="29dp"
+        android:text="프로판,LNG"
+        android:textAlignment="textStart"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="158dp" />
+
+    <TextView
+        android:id="@+id/Sensor_Num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sensor1"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.198"/>
+
+    <Button
+        android:id="@+id/BT3"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="#FFFFFF"
+        android:text="연결확인"
+        android:textColor="#000000"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <ImageButton
+        android:id="@+id/arrowbutton1"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="108dp"
+        android:backgroundTint="#D5D5D5"
+        android:scaleType="fitStart"
+        android:textColor="#000000"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/arrowbutton2"
+        app:layout_constraintHorizontal_bias="0.724"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow1"
+        tools:ignore="HardcodedText" />
+
+    <ImageButton
+        android:id="@+id/arrowbutton2"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:scaleType="fitStart"
+        android:layout_marginStart="212dp"
+
+        android:backgroundTint="#D5D5D5"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow2"
+        tools:ignore="HardcodedText" />
+
+    <ImageButton
+        android:id="@+id/refreshButton"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="20dp"
+        android:background="#FFFFFF"
+        android:scaleType="fitStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/arrowbutton2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/refresh" />
+
+    <ListView
+        android:layout_width="409dp"
+        android:layout_height="298dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="432dp"
+        tools:ignore="MissingConstraints" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.ProgressBar"
+        android:layout_width="160dp"
+        android:layout_height="173dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="0"
+        android:rotation="0"
+        android:secondaryProgress="0"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="204dp"
+        tools:layout_editor_absoluteY="112dp" />
+
+    <TextView
+        android:id="@+id/percentageTextView"
+        android:layout_width="65dp"
+        android:layout_height="32dp"
+        android:text="0%"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="@+id/progressBar"
+        app:layout_constraintTop_toTopOf="@+id/progressBar" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

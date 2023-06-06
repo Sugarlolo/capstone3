@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     final String username = "";
     final String password = "";
     private DataBaseHelper dbHelper;
-    private static final String TAG = "MQTTExample";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 String jsonMessage = new String(mqttMessage.getPayload());
-                Log.d(TAG, "Received MQTT message: " + jsonMessage);
+                Log.d("Debug","Received MQTT message: " + jsonMessage);
 
                 try {
                     JSONArray jsonArray = new JSONArray(jsonMessage);
@@ -71,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         String gasSensor = jsonObject.getString("Gas_Sensor");
                         int value = jsonObject.getInt("value");
 
-                        Log.d(TAG, "Gas Sensor: " + gasSensor + ", Value: " + value);
-
+                        Log.d("Debug","Gas Sensor: " + gasSensor + ", Value: " + value);
 
 
                     }
@@ -105,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DataBaseHelper(this);
 
         int gas1 = 10;
-        int gas2 = 200;
-        int gas3 = 300;
+        int gas2 = 220;
+        int gas3 = 320;
         dbHelper.insertData(gas1, gas2, gas3);
         try {
             dbHelper.openDataBase();
@@ -129,12 +127,12 @@ public class MainActivity extends AppCompatActivity {
                 String now = cursor.getString(4);
 
                 // 결과 출력 또는 처리
-                Log.d("Result", "ID: " + id + ", example1: " + example1 + ", example2: "
-                        + example2 + ", example3: " + example3+ ", timestamp: " + now);
+                Log.d("Result", "ID: " + id + ", LPGLNG: " + example1 + ", MATAIN: "
+                        + example2 + ", CO: " + example3+ ", timestamp: " + now);
 
                 // 결과 출력 또는 처리
-                String line = "ID: " + id + ", Example1: " + example1 + ", Example2: "
-                        + example2 + ", Example3: " + example3 + ", Timestamp: " + now;
+                String line = "ID: " + id + ", LPGLNG: " + example1 + ", MATAIN: "
+                        + example2 + ", CO: " + example3 + ", Timestamp: " + now;
                 result.append(line).append("\n");
             } while (cursor.moveToNext());
 

@@ -72,15 +72,15 @@ public class MainActivity extends AppCompatActivity {
                         int value = jsonObject.getInt("value");
 
                         Log.d(TAG, "Gas Sensor: " + gasSensor + ", Value: " + value);
+
+
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
             }
-
-
-
 
 
             @Override

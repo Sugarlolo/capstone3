@@ -1,5 +1,6 @@
 package com.example.mqtt_test;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.SQLException;
@@ -16,6 +17,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static String TAG = "DataBaseHelper";
@@ -26,6 +30,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
+
+    private static final String TABLE_NAME = "GAS";
+    private static final String COL_ID = "gas_pk";
+    private static final String COL_GAS3 = "CO";
+    private static final String COL_GAS2 = "METAINE";
+    private static final String COL_GAS1 = "LPGLNG";
+    private static final String COL_TIMESTAMP = "timestamp";
 
 
     public DataBaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version, Context mContext) {
@@ -115,14 +126,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         super.close();
     }
 
+    public void insertData(int gas1, int gas2, int gas3) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_GAS1, gas1);
+        values.put(COL_GAS2, gas2);
+        values.put(COL_GAS3, gas3);
+        values.put(COL_TIMESTAMP, getTimestamp());
+        db.insert(TABLE_NAME, null, values);
+
+        db.close();
+    }
+    private String getTimestamp() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        String createTableQuery = "CREATE TABLE " + TABLE_NAME + "(" +
+                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COL_GAS1 + " INTEGER," +
+                COL_GAS2 + " INTEGER," +
+                COL_GAS3 + " INTEGER," +
+                COL_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +  ")";
+        db.execSQL(createTableQuery);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
     }
 }

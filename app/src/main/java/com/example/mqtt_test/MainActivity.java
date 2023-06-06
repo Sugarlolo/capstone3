@@ -1,20 +1,18 @@
 package com.example.mqtt_test;
 
+import android.database.Cursor;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import java.time.LocalDateTime;
 import androidx.appcompat.app.AppCompatActivity;
 
 /*import org.eclipse.paho.android.service.MqttAndroidClient;*/
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONObject;
 
@@ -30,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     final String subscriptionTopic = "myeongseung";
     final String username = "";
     final String password = "";
+    private DataBaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,5 +80,54 @@ public class MainActivity extends AppCompatActivity {
                 mqttAndroidClient.connect(mqttConnectOptions);
             }
         });
+
+        dbHelper = new DataBaseHelper(this);
+
+        int gas1 = 10;
+        int gas2 = 200;
+        int gas3 = 300;
+        dbHelper.insertData(gas1, gas2, gas3);
+        try {
+            dbHelper.openDataBase();
+        }catch (
+                SQLException e) {
+            e.printStackTrace();
+        }
+
+        String query = "select * from GAS";
+        Cursor cursor = dbHelper.getReadableDatabase().rawQuery(query, null);
+
+        StringBuilder result = new StringBuilder();
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // 결과 처리
+                int id = cursor.getInt(0);
+                int example1 = cursor.getInt(1);
+                int example2 = cursor.getInt(2);
+                int example3 = cursor.getInt(3);
+                String now = cursor.getString(4);
+
+                // 결과 출력 또는 처리
+                Log.d("Result", "ID: " + id + ", example1: " + example1 + ", example2: "
+                        + example2 + ", example3: " + example3+ ", timestamp: " + now);
+
+                // 결과 출력 또는 처리
+                String line = "ID: " + id + ", Example1: " + example1 + ", Example2: "
+                        + example2 + ", Example3: " + example3 + ", Timestamp: " + now;
+                result.append(line).append("\n");
+            } while (cursor.moveToNext());
+
+            // 커서 닫기
+            cursor.close();
+        }
+
+    }
+
+
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // 데이터베이스 연결 종료
+        dbHelper.close();
     }
 }

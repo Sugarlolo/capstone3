@@ -14,6 +14,8 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import info.mqtt.android.service.MqttAndroidClient;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     final String username = "";
     final String password = "";
     private DataBaseHelper dbHelper;
+    private static final String TAG = "MQTTExample";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +59,29 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                Log.d("Debug", mqttMessage.toString());
+                String jsonMessage = new String(mqttMessage.getPayload());
+                Log.d(TAG, "Received MQTT message: " + jsonMessage);
 
-                // Here you can convert mqttMessage to JSON Object
-                JSONObject jsonObject = new JSONObject(new String(mqttMessage.getPayload()));
+                try {
+                    JSONArray jsonArray = new JSONArray(jsonMessage);
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        String gasSensor = jsonObject.getString("Gas_Sensor");
+                        int value = jsonObject.getInt("value");
+
+                        Log.d(TAG, "Gas Sensor: " + gasSensor + ", Value: " + value);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
+
+
+
+
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {

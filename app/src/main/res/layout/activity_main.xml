@@ -42,47 +42,46 @@
 
     <TextView
         android:id="@+id/Sensor_State"
-        android:layout_width="147dp"
-        android:layout_height="54dp"
-        android:text="GOOD"
-        android:textSize="40dp"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:textSize="60dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
         app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.581"
+        app:layout_constraintVertical_bias="0.669"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/Sensor_Name"
-        android:layout_width="125dp"
-        android:layout_height="29dp"
-        android:text="프로판,LNG"
+        android:layout_width="212dp"
+        android:layout_height="70dp"
         android:textAlignment="textStart"
-        android:textSize="18dp"
+        android:textSize="50dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintHorizontal_bias="0.101"
         app:layout_constraintStart_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.366"
+        app:layout_constraintVertical_bias="0.392"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/Sensor_Num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sensor1"
+        android:layout_width="176dp"
+        android:layout_height="42dp"
+
+        android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.198"/>
+        app:layout_constraintVertical_bias="0.234" />
 
     <Button
         android:id="@+id/BT3"
@@ -90,7 +89,7 @@
         android:layout_height="103dp"
         android:layout_marginStart="16dp"
         android:backgroundTint="#FFFFFF"
-        android:text="연결확인"
+        android:text="연결\n확인"
         android:textColor="#000000"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -152,8 +151,9 @@
         app:srcCompat="@drawable/refresh" />
 
     <ListView
-        android:layout_width="436dp"
-        android:layout_height="423dp"
+        android:id="@+id/listveiw"
+        android:layout_width="429dp"
+        android:layout_height="358dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -161,7 +161,17 @@
         app:layout_constraintVertical_bias="0.916"
         tools:ignore="MissingConstraints" />
 
-    <ProgressBar
+<!--    <TextView-->
+<!--        android:id="@+id/percentageTextView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/imageView4"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/imageView4"-->
+<!--        app:layout_constraintHorizontal_bias="0.882"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/imageView4"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/imageView4" />-->
+
+        <ProgressBar
         android:id="@+id/progressBar"
         style="@android:style/Widget.ProgressBar"
         android:layout_width="160dp"
@@ -173,21 +183,21 @@
         android:secondaryProgress="0"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintHorizontal_bias="0.903"
+        app:layout_constraintHorizontal_bias="0.909"
         app:layout_constraintStart_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.517"
+        app:layout_constraintVertical_bias="0.52"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/percentageTextView"
         android:layout_width="65dp"
         android:layout_height="32dp"
-        android:text="0%"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintStart_toStartOf="@+id/progressBar"

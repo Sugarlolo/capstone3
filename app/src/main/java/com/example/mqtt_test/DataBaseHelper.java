@@ -134,7 +134,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(COL_GAS3, gas3);
         values.put(COL_TIMESTAMP, getTimestamp());
         db.insert(TABLE_NAME, null, values);
-
+        Log.d("Debug","lpg"+gas1+"metaine"+gas2+"co"+gas3 + getTimestamp());
         db.close();
     }
     private String getTimestamp() {
@@ -159,4 +159,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
+
+    public void resetDatabase() {
+        close();
+
+        String mPath = DB_PATH + DB_NAME;
+        boolean databaseDeleted = mContext.deleteDatabase(mPath);
+
+        if (databaseDeleted) {
+            try {
+                createDataBase();
+                openDataBase();
+                onCreate(getWritableDatabase());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

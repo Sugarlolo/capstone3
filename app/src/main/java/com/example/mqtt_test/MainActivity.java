@@ -8,12 +8,11 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private List<String> dataList;
 
-    private TextView percentageTextView;
+    private TextView present_textView;
 
     private String gasSensor="";
     private int value=0;
@@ -57,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView Sensor_Num;
     private TextView Sensor_Name;
     private TextView Sensor_State;
+    private ProgressBar ps_bar;
     private ImageButton arrowbutton1, arrowbutton2;
     private String[] textArray = {"sensor 1", "sensor 2", "sensor 3"};
     private String[] textArray2 = {"LPG", "METAINE", "CO"};
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         // ui_리스트뷰 출력
         listView = findViewById(R.id.listveiw);
+        ProgressBar ps_bar = findViewById(R.id.ps_bar);
         dataList = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         Sensor_Name = findViewById(R.id.Sensor_Name);
         Sensor_State = findViewById(R.id.Sensor_State);
 
-        percentageTextView = findViewById(R.id.percentageTextView);
+        present_textView = findViewById(R.id.present_textView);
 
         arrowbutton1 = findViewById(R.id.arrowbutton1);
         arrowbutton2 = findViewById(R.id.arrowbutton2);
@@ -155,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                         CO_value = ((gas3 - 40) * 100) / (270 - 40);
                     }
 
-                    if(gas1 > 100 || gas2 > 120|| gas3 > 100 ){
+                    if(LPG_value >60 || Metaine_value >60|| CO_value > 60 ){
                         dbHelper.insertData(gas1, gas2, gas3);
                         try {
                             dbHelper.openDataBase();
@@ -251,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class arrowbutton1ClickListener implements View.OnClickListener {
+        @SuppressLint("UseCompatLoadingForDrawables")
         @Override
         public void onClick(View v) {
             currentIndex--;
@@ -266,26 +268,40 @@ public class MainActivity extends AppCompatActivity {
 
             if (gasSensor.equals(textArray2[currentIndex])) {   //{"LPG", "METAINE", "CO"};  static int LPG_value; static int Metaine_value; static int CO_value;
                 if (gasSensor.equals("LPG")) {
-                    percentageTextView.setText(String.valueOf(LPG_value));
-                    if (LPG_value <= 60) {
+                    // 백분율 텍스트 뷰 출력
+                    String value_string = String.valueOf(LPG_value);
+                    present_textView.setText("love");
+                    Log.d("ps_textview", LPG_value + " + " + value_string);
+
+                    if (LPG_value <= 30) {
                         Sensor_State.setText("good");
+                        ps_bar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_green)); // 프로그레스 바 색상
+                    } else if (LPG_value <= 60) {
+                        Sensor_State.setText("good");
+                    } else if (LPG_value <= 60) {
+                        Sensor_State.setText("danger");
                     } else {
                         Sensor_State.setText("danger");
+                        ps_bar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_red));
                     }
-                } else if (gasSensor.equals("METAINE")) {
-                    //percentageTextView.setText(Metaine_value);
+                }else if (gasSensor.equals("METAINE")) {
+                    String value_string = String.valueOf(Metaine_value);
+                    present_textView.setText("true");
                     if (Metaine_value <= 60) {
                         Sensor_State.setText("good");
+
                     } else {
                         Sensor_State.setText("danger");
                     }
                 } else if (gasSensor.equals("CO")) {
-                    //percentageTextView.setText(CO_value);
+                    String value_string = String.valueOf(CO_value);
+                    present_textView.setText("hi");
                     if (CO_value <= 60) {
                         Sensor_State.setText("good");
                     } else {
                         Sensor_State.setText("danger");
                     }
+
                 }
             }
         }

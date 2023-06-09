@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView present_textView;
 
-    private String gasSensor="";
-    private int value=0;
+    private String gasSensor = "";
+    private int value = 0;
 
 
     private TextView Sensor_Num;
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     private String[] textArray = {"sensor 1", "sensor 2", "sensor 3"};
     private String[] textArray2 = {"LPG", "METAINE", "CO"};
     private int currentIndex = 0;
-
 
 
     @SuppressLint("WrongViewCast")
@@ -120,22 +119,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void connectionLost(Throwable throwable) {
-                Log.d("Debug","Connection lost.");
+                Log.d("Debug", "Connection lost.");
             }
-
 
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 String jsonMessage = new String(mqttMessage.getPayload());
-                Log.d("Debug","Received MQTT message: " + jsonMessage);
+                Log.d("Debug", "Received MQTT message: " + jsonMessage);
 
                 try {
                     JSONArray jsonArray = new JSONArray(jsonMessage);
 
-                    int gas1=0;
-                    int gas2=0;
-                    int gas3=0;
+                    int gas1 = 0;
+                    int gas2 = 0;
+                    int gas3 = 0;
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -144,23 +142,23 @@ public class MainActivity extends AppCompatActivity {
                         value = jsonObject.getInt("value");
 
 
-                        Log.d("Debug","Gas Sensor: " + gasSensor + ", Value: " + value);
+                        Log.d("Debug", "Gas Sensor: " + gasSensor + ", Value: " + value);
 
 
-                        if(gasSensor.equals("LPG")) gas1=value;
-                        else if(gasSensor.equals("Metaine")) gas2=value;
-                        else if(gasSensor.equals("CO")) gas3=value;
+                        if (gasSensor.equals("LPG")) gas1 = value;
+                        else if (gasSensor.equals("Metaine")) gas2 = value;
+                        else if (gasSensor.equals("CO")) gas3 = value;
 
                         LPG_value = ((gas1 - 50) * 100) / (200 - 40);
                         Metaine_value = ((gas2 - 50) * 100) / (200 - 50);
                         CO_value = ((gas3 - 40) * 100) / (270 - 40);
                     }
 
-                    if(LPG_value >60 || Metaine_value >60|| CO_value > 60 ){
+                    if (LPG_value > 60 || Metaine_value > 60 || CO_value > 60) {
                         dbHelper.insertData(gas1, gas2, gas3);
                         try {
                             dbHelper.openDataBase();
-                        }catch (
+                        } catch (
                                 SQLException e) {
                             e.printStackTrace();
                         }
@@ -174,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-                Log.d("Debug","Delivery Completed...");
+                Log.d("Debug", "Delivery Completed...");
             }
         });
 
@@ -190,17 +188,16 @@ public class MainActivity extends AppCompatActivity {
                 mqttAndroidClient.connect(mqttConnectOptions);
             }
         });
-        Log.d("load_Data",textArray2[0]);
-        Log.d("gasSensor",gasSensor);
-
+        Log.d("load_Data", textArray2[0]);
+        Log.d("gasSensor", gasSensor);
 
 
         if (LPG_value <= 60) {
-                Sensor_State.setText("good");
-            } else {
-                Sensor_State.setText("danger");
-            }
+            Sensor_State.setText("good");
+        } else {
+            Sensor_State.setText("danger");
         }
+    }
 
 
     protected void onDestroy() {
@@ -233,12 +230,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // 결과 출력 또는 처리
-                String line =  id + ". LPGLNG : " + example1 + ", Metaine : "
-                        + example2 + ", CO : " + example3 +"\n     "+ now;
+                String line = id + ". LPGLNG : " + example1 + ", Metaine : "
+                        + example2 + ", CO : " + example3 + "\n     " + now;
                 result.append(line).append("\n");
 
                 dataList.add(line);
-
 
 
             } while (cursor.moveToNext());
@@ -269,37 +265,38 @@ public class MainActivity extends AppCompatActivity {
             if (gasSensor.equals(textArray2[currentIndex])) {   //{"LPG", "METAINE", "CO"};  static int LPG_value; static int Metaine_value; static int CO_value;
                 if (gasSensor.equals("LPG")) {
                     // 백분율 텍스트 뷰 출력
-                    String value_string = String.valueOf(LPG_value);
-                    present_textView.setText("love");
-                    Log.d("ps_textview", LPG_value + " + " + value_string);
+                    //Log.d("ps_textview", LPG_value + " + " + value_string);
 
                     if (LPG_value <= 30) {
-                        Sensor_State.setText("good");
+                        Sensor_State.setText("GOOD");
                         ps_bar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_green)); // 프로그레스 바 색상
+                        present_textView.setText("0%");
                     } else if (LPG_value <= 60) {
-                        Sensor_State.setText("good");
-                    } else if (LPG_value <= 60) {
-                        Sensor_State.setText("danger");
+                        Sensor_State.setText("GOOD");
+                        present_textView.setText("0%");
                     } else {
                         Sensor_State.setText("danger");
+                        present_textView.setText("90%");
                         ps_bar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_red));
                     }
-                }else if (gasSensor.equals("METAINE")) {
-                    String value_string = String.valueOf(Metaine_value);
-                    present_textView.setText("true");
+                } else if (gasSensor.equals("METAINE")) {
+                    //String value_string = String.valueOf(Metaine_value);
+
                     if (Metaine_value <= 60) {
-                        Sensor_State.setText("good");
+                        Sensor_State.setText("GOOD");
+                        present_textView.setText("0%");
 
                     } else {
                         Sensor_State.setText("danger");
+                        present_textView.setText("90%");
                     }
                 } else if (gasSensor.equals("CO")) {
-                    String value_string = String.valueOf(CO_value);
-                    present_textView.setText("hi");
                     if (CO_value <= 60) {
-                        Sensor_State.setText("good");
+                        Sensor_State.setText("GOOD");
+                        present_textView.setText("0%");
                     } else {
                         Sensor_State.setText("danger");
+                        present_textView.setText("90%");
                     }
 
                 }
@@ -317,26 +314,43 @@ public class MainActivity extends AppCompatActivity {
             Sensor_Num.setText(textArray[currentIndex]);
             Sensor_Name.setText(textArray2[currentIndex]);
 
-            // value에 따라 Sensor_State 텍스트 변경 및 저장
             if (gasSensor.equals(textArray2[currentIndex])) {   //{"LPG", "METAINE", "CO"};  static int LPG_value; static int Metaine_value; static int CO_value;
                 if (gasSensor.equals("LPG")) {
-                    if (LPG_value <= 60) {
-                        Sensor_State.setText("good");
+                    // 백분율 텍스트 뷰 출력
+                    //Log.d("ps_textview", LPG_value + " + " + value_string);
+
+                    if (LPG_value <= 30) {
+                        Sensor_State.setText("GOOD");
+                        ps_bar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_green)); // 프로그레스 바 색상
+                        present_textView.setText("0%");
+                    } else if (LPG_value <= 60) {
+                        Sensor_State.setText("GOOD");
+                        present_textView.setText("0%");
                     } else {
                         Sensor_State.setText("danger");
+                        present_textView.setText("90%");
+                        ps_bar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_red));
                     }
                 } else if (gasSensor.equals("METAINE")) {
+                    //String value_string = String.valueOf(Metaine_value);
+
                     if (Metaine_value <= 60) {
-                        Sensor_State.setText("good");
+                        Sensor_State.setText("GOOD");
+                        present_textView.setText("0%");
+
                     } else {
                         Sensor_State.setText("danger");
+                        present_textView.setText("90%");
                     }
                 } else if (gasSensor.equals("CO")) {
                     if (CO_value <= 60) {
-                        Sensor_State.setText("good");
+                        Sensor_State.setText("GOOD");
+                        present_textView.setText("0%");
                     } else {
                         Sensor_State.setText("danger");
+                        present_textView.setText("90%");
                     }
+
                 }
             }
         }
